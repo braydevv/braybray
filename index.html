@@ -1,0 +1,1007 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>braybray</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      text-transform: lowercase;
+      color: #ffffff;
+    }
+    
+    body {
+      background-color: #000000;
+      overflow-x: hidden;
+      height: 100vh;
+      width: 100%;
+      position: relative;
+    }
+    
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.7;
+    }
+    
+    .background img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 60px;
+      animation: fadeIn 1s ease-in-out;
+    }
+    
+    .logo {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      background: linear-gradient(to right, #ffffff, #a0a0a0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: pulse 3s infinite;
+    }
+    
+    .nav {
+      display: flex;
+      gap: 30px;
+    }
+    
+    .nav-item {
+      font-size: 1.1rem;
+      text-decoration: none;
+      position: relative;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .nav-item:hover {
+      transform: translateY(-3px);
+    }
+    
+    .nav-item::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #ffffff;
+      transition: width 0.3s ease;
+    }
+    
+    .nav-item:hover::after {
+      width: 100%;
+    }
+    
+    .profile-section {
+      display: flex;
+      gap: 40px;
+      margin-bottom: 60px;
+      animation: slideUp 1s ease-in-out;
+    }
+    
+    .profile-picture {
+      position: relative;
+      width: 250px;
+      height: 250px;
+      flex-shrink: 0;
+    }
+    
+    .profile-frame {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      padding: 8px;
+      background-color: #000000;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+      /* Removed animation as requested */
+    }
+    
+    .profile-image {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #000000;
+    }
+    
+    .status-indicator {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 2;
+    }
+    
+    .status-icon {
+      width: 12px;
+      height: 12px;
+      background-color: #ffcc00;
+      border-radius: 50%;
+      margin-right: 8px;
+      box-shadow: 0 0 10px rgba(255, 204, 0, 0.7);
+    }
+    
+    .profile-info {
+      flex-grow: 1;
+    }
+    
+    .username {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 15px;
+      letter-spacing: -1px;
+    }
+    
+    .floating-status {
+      background-color: rgba(20, 20, 20, 0.7);
+      backdrop-filter: blur(10px);
+      padding: 15px 25px;
+      border-radius: 15px;
+      margin-bottom: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      animation: float 6s ease-in-out infinite;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .floating-status::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 20px;
+      width: 20px;
+      height: 20px;
+      background-color: rgba(20, 20, 20, 0.7);
+      transform: rotate(45deg);
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      z-index: -1;
+    }
+    
+    .status-text {
+      font-size: 1.1rem;
+      font-style: italic;
+    }
+    
+    .about-section {
+      background-color: rgba(20, 20, 20, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 60px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      animation: fadeIn 1.5s ease-in-out;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .section-title {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(to right, #ffffff, transparent);
+    }
+    
+    .about-text {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      font-weight: 600;
+    }
+    
+    .music-player {
+      background-color: rgba(20, 20, 20, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      animation: slideUp 2s ease-in-out;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      margin-bottom: 60px;
+    }
+    
+    .music-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .album-cover {
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
+      margin-right: 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .song-info {
+      flex-grow: 1;
+    }
+    
+    .song-title {
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+    }
+    
+    .song-artist {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .music-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+    
+    .progress-container {
+      flex-grow: 1;
+      height: 5px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 5px;
+      margin: 0 15px;
+      position: relative;
+      cursor: pointer;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      background-color: #ffffff;
+      border-radius: 5px;
+      width: 30%;
+      position: relative;
+    }
+    
+    .progress-bar::after {
+      content: '';
+      position: absolute;
+      right: -5px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 10px;
+      height: 10px;
+      background-color: #ffffff;
+      border-radius: 50%;
+    }
+    
+    .time {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .playback-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 15px;
+    }
+    
+    .control-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .control-button:hover {
+      transform: scale(1.1);
+    }
+    
+    .play-pause {
+      width: 50px;
+      height: 50px;
+      background-color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .play-pause i {
+      color: #000000;
+      font-size: 1.2rem;
+    }
+    
+    .volume-control {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .volume-icon {
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .volume-icon:hover {
+      transform: scale(1.1);
+    }
+    
+    .volume-slider {
+      width: 100px;
+      height: 5px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 5px;
+      position: relative;
+      cursor: pointer;
+    }
+    
+    .volume-level {
+      height: 100%;
+      background-color: #ffffff;
+      border-radius: 5px;
+      width: 70%;
+      position: relative;
+    }
+    
+    .volume-level::after {
+      content: '';
+      position: absolute;
+      right: -5px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 10px;
+      height: 10px;
+      background-color: #ffffff;
+      border-radius: 50%;
+    }
+    
+    /* Snow effect */
+    .snowflake {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    
+    /* Projects popup */
+    .projects-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .projects-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .projects-container {
+      background-color: rgba(20, 20, 20, 0.9);
+      border-radius: 20px;
+      padding: 30px;
+      width: 90%;
+      max-width: 800px;
+      max-height: 80vh;
+      overflow-y: auto;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      transform: translateY(30px);
+      opacity: 0;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .projects-overlay.active .projects-container {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    .projects-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    
+    .projects-title {
+      font-size: 2rem;
+      font-weight: 800;
+    }
+    
+    .close-projects {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.7);
+      transition: all 0.3s ease;
+    }
+    
+    .close-projects:hover {
+      color: #ffffff;
+      transform: scale(1.1);
+    }
+    
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    
+    .project-card {
+      background-color: rgba(30, 30, 30, 0.7);
+      border-radius: 15px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.3s ease;
+    }
+    
+    .project-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .project-image {
+      width: 100%;
+      height: 150px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.3);
+      padding: 20px;
+    }
+    
+    .project-image img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    
+    .project-content {
+      padding: 20px;
+    }
+    
+    .project-title {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+    }
+    
+    .project-description {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 15px;
+    }
+    
+    .project-link {
+      display: inline-block;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 8px 15px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+    
+    .project-link:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
+    }
+    
+    /* Discord contact */
+    .discord-contact {
+      background-color: rgba(20, 20, 20, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      animation: slideUp 2.5s ease-in-out;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .discord-icon {
+      font-size: 2.5rem;
+      color: #5865F2;
+    }
+    
+    .discord-info {
+      flex-grow: 1;
+    }
+    
+    .discord-title {
+      font-size: 1.3rem;
+      margin-bottom: 5px;
+    }
+    
+    .discord-username {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.8);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .copy-button {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+    
+    .copy-button:hover {
+      color: #ffffff;
+    }
+    
+    /* Animations */
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+    
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.8;
+      }
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .profile-section {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      
+      .profile-picture {
+        margin-bottom: 20px;
+      }
+      
+      .floating-status::before {
+        left: 50%;
+        transform: translateX(-50%) rotate(45deg);
+      }
+      
+      .header {
+        flex-direction: column;
+        gap: 20px;
+      }
+      
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background -->
+  <div class="background">
+    <img src="blackaestheticgif.gif" alt="Background">
+  </div>
+  
+  <!-- Snow Container -->
+  <div id="snow-container"></div>
+  
+  <!-- Projects Popup -->
+  <div class="projects-overlay" id="projectsOverlay">
+    <div class="projects-container">
+      <div class="projects-header">
+        <h2 class="projects-title">projects</h2>
+        <button class="close-projects" id="closeProjects">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-image">
+            <img src="midnightwhitelogo.png" alt="Midnight Logo">
+          </div>
+          <div class="project-content">
+            <h3 class="project-title">midnight</h3>
+            <p class="project-description">unblocked games platform with a sleek interface and wide game selection.</p>
+            <a href="https://braydevv.github.io/midnight" target="_blank" class="project-link">visit site</a>
+          </div>
+        </div>
+        
+        <div class="project-card">
+          <div class="project-image">
+            <img src="driftLogoPng.png" alt="Drift Logo">
+          </div>
+          <div class="project-content">
+            <h3 class="project-title">drift</h3>
+            <p class="project-description">homework helper AI designed to assist students with their academic challenges.</p>
+            <a href="https://braydevv.github.io/drift" target="_blank" class="project-link">visit site</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">braybray</div>
+      <div class="nav">
+        <a href="#" class="nav-item">home</a>
+        <a class="nav-item" id="projectsButton">projects</a>
+        <a href="#" class="nav-item">contact</a>
+      </div>
+    </div>
+    
+    <!-- Profile Section -->
+    <div class="profile-section">
+      <div class="profile-picture">
+        <div class="profile-frame">
+          <img src="https://cdn.pfps.gg/pfps/2597-aesthetic-black-cat.png" alt="Profile Picture" class="profile-image">
+        </div>
+        <div class="status-indicator">
+          <div class="status-icon"></div>
+          <span>idle</span>
+        </div>
+      </div>
+      
+      <div class="profile-info">
+        <h1 class="username">braybray</h1>
+        <div class="floating-status">
+          <p class="status-text">"right now im in a state of mind"</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- About Section -->
+    <div class="about-section">
+      <h2 class="section-title">about me</h2>
+      <p class="about-text">
+        heyy im brayden! a little abt me is that i like coding websites and making games!! right now im prob making a website so stay tuned...
+      </p>
+    </div>
+    
+    <!-- Music Player -->
+    <div class="music-player">
+      <div class="music-header">
+        <img src="https://pbs.twimg.com/media/FtBm1wmXsAAOgKw.jpg" alt="Album Cover" class="album-cover">
+        <div class="song-info">
+          <div class="song-title">no tears left to cry</div>
+          <div class="song-artist">ariana grande</div>
+        </div>
+      </div>
+      
+      <div class="music-controls">
+        <span class="time" id="currentTime">0:00</span>
+        <div class="progress-container" id="progressContainer">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <span class="time" id="duration">3:26</span>
+      </div>
+      
+      <div class="playback-controls">
+        <button class="control-button play-pause" id="playPauseBtn">
+          <i class="fas fa-play"></i>
+        </button>
+      </div>
+      
+      <div class="volume-control">
+        <div class="volume-icon" id="volumeIcon">
+          <i class="fas fa-volume-up"></i>
+        </div>
+        <div class="volume-slider" id="volumeSlider">
+          <div class="volume-level" id="volumeLevel"></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Discord Contact -->
+    <div class="discord-contact">
+      <div class="discord-icon">
+        <i class="fab fa-discord"></i>
+      </div>
+      <div class="discord-info">
+        <div class="discord-title">contact me</div>
+        <div class="discord-username">
+          <span>.braydn</span>
+          <button class="copy-button" id="copyDiscord">
+            <i class="fas fa-copy"></i> copy
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Audio Element -->
+  <audio id="song" src="Ariana_Grande_-_No_Tears_Left_To_Cry.mp3"></audio>
+  
+  <script>
+    // Music Player Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const audio = document.getElementById('song');
+      const playPauseBtn = document.getElementById('playPauseBtn');
+      const progressBar = document.getElementById('progressBar');
+      const progressContainer = document.getElementById('progressContainer');
+      const currentTimeDisplay = document.getElementById('currentTime');
+      const durationDisplay = document.getElementById('duration');
+      const volumeIcon = document.getElementById('volumeIcon');
+      const volumeSlider = document.getElementById('volumeSlider');
+      const volumeLevel = document.getElementById('volumeLevel');
+      let isPlaying = false;
+      let isMuted = false;
+      let previousVolume = 1;
+      
+      // Set initial volume
+      audio.volume = 0.7;
+      
+      // Format time function
+      function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = Math.floor(seconds % 60);
+        return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+      }
+      
+      // Update duration when metadata is loaded
+      audio.addEventListener('loadedmetadata', function() {
+        durationDisplay.textContent = formatTime(audio.duration);
+      });
+      
+      // Play/Pause functionality
+      playPauseBtn.addEventListener('click', function() {
+        if (isPlaying) {
+          audio.pause();
+          playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+        } else {
+          audio.play();
+          playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        }
+        isPlaying = !isPlaying;
+      });
+      
+      // Update progress bar and time
+      audio.addEventListener('timeupdate', function() {
+        const progress = (audio.currentTime / audio.duration) * 100;
+        progressBar.style.width = progress + '%';
+        currentTimeDisplay.textContent = formatTime(audio.currentTime);
+      });
+      
+      // Click on progress bar to seek
+      progressContainer.addEventListener('click', function(e) {
+        const clickPosition = (e.offsetX / this.offsetWidth);
+        const seekTime = clickPosition * audio.duration;
+        audio.currentTime = seekTime;
+      });
+      
+      // Volume control
+      volumeSlider.addEventListener('click', function(e) {
+        const newVolume = e.offsetX / this.offsetWidth;
+        audio.volume = newVolume;
+        volumeLevel.style.width = (newVolume * 100) + '%';
+        updateVolumeIcon(newVolume);
+        isMuted = newVolume === 0;
+        if (newVolume > 0) previousVolume = newVolume;
+      });
+      
+      // Mute/Unmute
+      volumeIcon.addEventListener('click', function() {
+        if (isMuted) {
+          audio.volume = previousVolume;
+          volumeLevel.style.width = (previousVolume * 100) + '%';
+          updateVolumeIcon(previousVolume);
+        } else {
+          previousVolume = audio.volume;
+          audio.volume = 0;
+          volumeLevel.style.width = '0%';
+          volumeIcon.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        }
+        isMuted = !isMuted;
+      });
+      
+      // Update volume icon based on level
+      function updateVolumeIcon(volume) {
+        if (volume === 0) {
+          volumeIcon.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        } else if (volume < 0.5) {
+          volumeIcon.innerHTML = '<i class="fas fa-volume-down"></i>';
+        } else {
+          volumeIcon.innerHTML = '<i class="fas fa-volume-up"></i>';
+        }
+      }
+      
+      // Reset when song ends
+      audio.addEventListener('ended', function() {
+        progressBar.style.width = '0%';
+        playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+        isPlaying = false;
+        currentTimeDisplay.textContent = '0:00';
+        
+        // Auto replay after a short delay
+        setTimeout(() => {
+          audio.play();
+          playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+          isPlaying = true;
+        }, 1500);
+      });
+    });
+    
+    // Projects Popup
+    document.addEventListener('DOMContentLoaded', function() {
+      const projectsButton = document.getElementById('projectsButton');
+      const projectsOverlay = document.getElementById('projectsOverlay');
+      const closeProjects = document.getElementById('closeProjects');
+      
+      projectsButton.addEventListener('click', function() {
+        projectsOverlay.classList.add('active');
+      });
+      
+      closeProjects.addEventListener('click', function() {
+        projectsOverlay.classList.remove('active');
+      });
+      
+      // Close when clicking outside
+      projectsOverlay.addEventListener('click', function(e) {
+        if (e.target === projectsOverlay) {
+          projectsOverlay.classList.remove('active');
+        }
+      });
+    });
+    
+    // Copy Discord username
+    document.addEventListener('DOMContentLoaded', function() {
+      const copyButton = document.getElementById('copyDiscord');
+      
+      copyButton.addEventListener('click', function() {
+        navigator.clipboard.writeText('.braydn').then(() => {
+          copyButton.innerHTML = '<i class="fas fa-check"></i> copied!';
+          setTimeout(() => {
+            copyButton.innerHTML = '<i class="fas fa-copy"></i> copy';
+          }, 2000);
+        });
+      });
+    });
+    
+    // Snow Effect
+    document.addEventListener('DOMContentLoaded', function() {
+      const snowContainer = document.getElementById('snow-container');
+      const snowflakeCount = 50;
+      
+      // Create snowflakes
+      for (let i = 0; i < snowflakeCount; i++) {
+        createSnowflake();
+      }
+      
+      function createSnowflake() {
+        const snowflake = document.createElement('div');
+        snowflake.classList.add('snowflake');
+        
+        // Random properties
+        const size = Math.random() * 4 + 2;
+        const left = Math.random() * 100;
+        const animationDuration = Math.random() * 10 + 5;
+        const opacity = Math.random() * 0.6 + 0.2;
+        
+        // Apply styles
+        snowflake.style.width = `${size}px`;
+        snowflake.style.height = `${size}px`;
+        snowflake.style.left = `${left}%`;
+        snowflake.style.top = '-10px';
+        snowflake.style.opacity = opacity;
+        snowflake.style.filter = `blur(${size > 4 ? 1 : 0}px)`;
+        snowflake.style.animation = `fall ${animationDuration}s linear infinite`;
+        
+        // Add animation
+        const keyframes = `
+          @keyframes fall {
+            0% {
+              transform: translateY(-10px) translateX(0);
+              opacity: ${opacity};
+            }
+            50% {
+              transform: translateY(50vh) translateX(${Math.random() * 40 - 20}px);
+              opacity: ${opacity};
+            }
+            100% {
+              transform: translateY(100vh) translateX(${Math.random() * 80 - 40}px);
+              opacity: 0;
+            }
+          }
+        `;
+        
+        const style = document.createElement('style');
+        style.textContent = keyframes;
+        document.head.appendChild(style);
+        
+        // Add to container
+        document.body.appendChild(snowflake);
+        
+        // Remove and recreate after animation ends
+        setTimeout(() => {
+          snowflake.remove();
+          style.remove();
+          createSnowflake();
+        }, animationDuration * 1000);
+      }
+    });
+  </script>
+</body>
+</html>
